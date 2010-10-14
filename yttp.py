@@ -124,7 +124,7 @@ class Generator:
 
     def generate(self, events):
         cal = Calendar()
-        cal.add('prodid', '-//york-timetable-converter//alanbriolat//')
+        cal.add('prodid', '-//york-timetable-converter//alanbriolat//EN')
         cal.add('version', '2.0')
         #cal.add('calscale', 'gregorian')
 
@@ -137,6 +137,11 @@ class Generator:
             ev.add('dtstart', start.replace(tzinfo=UTC))
             ev.add('dtend', end.replace(tzinfo=UTC))
             ev.add('dtstamp', datetime.utcnow().replace(tzinfo=UTC))
+            # The above generates 'DTSTART;VALUE=DATE:...', which Google Calendar
+            # doesn't like - this fixes that problem
+            ev['dtstart'] = str(ev['dtstart'])
+            ev['dtend'] = str(ev['dtend'])
+            ev['dtstamp'] = str(ev['dtstamp'])
             ev['uid'] = start.strftime('%Y%m%dT%H%M%SZ/') + event['id'] + '@york.ac.uk'
             cal.add_component(ev)
 
