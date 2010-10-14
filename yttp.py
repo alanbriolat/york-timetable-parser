@@ -181,7 +181,7 @@ if __name__ == '__main__':
     for k in config['termdates']:
         config['termdates'][k] = date(*(map(int, config['termdates'][k].split('/'))))
 
-    parser = Parser(term_dates=config['termdates'])
+    parser = Parser(term_dates=config['termdates'], abbrev=config['abbreviations'])
     generator = Generator(summary_fmt=config['summary_format'])
 
     events = list(parser.parse(open(args[1], 'r')))
