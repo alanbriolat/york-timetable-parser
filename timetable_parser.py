@@ -17,5 +17,5 @@ if __name__ == '__main__':
 
     import yttp
     parser = yttp.Parser({'au': date(2010, 10, 11), 'sp': date(2011, 01, 10), 'su': date(2011, 04, 26)})
-    for start, end, event in parser.parse(inputfile.read()):
-        print start, end, event['description'], '@', event['location']
+    generator = yttp.Generator()
+    sys.stdout.write(generator.generate(parser.parse(inputfile.read())))

@@ -9,3 +9,4 @@ Dependencies:
 
 * icalendar 2.1
 * beautifulsoup 3.1
+* pytz
