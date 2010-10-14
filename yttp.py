@@ -2,11 +2,11 @@ from datetime import datetime, time, date, timedelta
 
 from BeautifulSoup import BeautifulSoup
 from icalendar import Calendar, Event
-from pytz import timezone
+import pytz
 
 
-GMT = timezone('GMT')
-UTC = timezone('UTC')
+GMT = pytz.timezone('Europe/London')
+UTC = pytz.utc
 TERMS = ('au', 'sp', 'su')
 WEEKS = [str(i) + t for t in TERMS for i in xrange(1, 11)]
 TYPES = {'L': 'Lecture',
@@ -19,6 +19,10 @@ def _week_date(term_dates, week):
     term = week[-2:]
     weeknum = int(week[:-2])
     return term_dates[term] + timedelta(weeks=weeknum-1)
+
+
+def _correct_datetime(dt):
+    return GMT.normalize(GMT.localize(dt)).astimezone(UTC)
 
 
 class Parser:
@@ -59,8 +63,8 @@ class Parser:
                                          self.day_start)
                 start += event['offset_blocks'] * self.block_duration
                 end = start + event['length_blocks'] * self.block_duration
-                start = GMT.localize(start).astimezone(UTC)
-                end = GMT.localize(end).astimezone(UTC)
+                start = _correct_datetime(start)
+                end = _correct_datetime(end)
                 yield (start, end, event)
 
     @staticmethod
@@ -134,8 +138,8 @@ class Generator:
             ev = Event()
             ev.add('summary', self.summary_fmt % event)
             ev.add('location', event['location'])
-            ev.add('dtstart', start.replace(tzinfo=UTC))
-            ev.add('dtend', end.replace(tzinfo=UTC))
+            ev.add('dtstart', start)
+            ev.add('dtend', end)
             ev.add('dtstamp', datetime.utcnow().replace(tzinfo=UTC))
             # The above generates 'DTSTART;VALUE=DATE:...', which Google Calendar
             # doesn't like - this fixes that problem
