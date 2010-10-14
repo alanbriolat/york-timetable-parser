@@ -1,0 +1,17 @@
+{
+    "summary_format": "%(description)s",
+    "termdates": {
+        "au": "2010/10/11",
+        "sp": "2011/01/10",
+        "su": "2011/04/26"
+    },
+    "abbreviations": {
+        "Evolutionary Algorithms": "EVO",
+        "Emergence": "EME",
+        "Evolvable Hardware": "EHW",
+        "Quantum Information Processing": "QIP",
+        "Topics in Privacy & Security": "TPS",
+        "MEng 4th Year Project": "PR5",
+        "MEng Group Project 4th Year": "PRG"
+    }
+}

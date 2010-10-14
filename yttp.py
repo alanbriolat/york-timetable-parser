@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+import optparse
+import sys
+import json
 from datetime import datetime, time, date, timedelta
 
 from BeautifulSoup import BeautifulSoup
@@ -122,18 +126,16 @@ class Generator:
 
     Generates iCalendar files from streams of events.
     """
-    def __init__(self, summary_fmt='%(description)s (%(type)s)', event_filter=None):
+    def __init__(self, summary_fmt='%(description)s (%(type)s)'):
         self.summary_fmt = summary_fmt
-        self.event_filter = event_filter if event_filter is not None else lambda event: True
 
-    def generate(self, events):
+    def generate(self, events, event_filter=None):
         cal = Calendar()
         cal.add('prodid', '-//york-timetable-converter//alanbriolat//EN')
         cal.add('version', '2.0')
-        #cal.add('calscale', 'gregorian')
 
         for start, end, event in events:
-            if not self.event_filter(event):
+            if event_filter is not None and not event_filter(event):
                 continue
             ev = Event()
             ev.add('summary', self.summary_fmt % event)
@@ -151,3 +153,44 @@ class Generator:
 
         return cal.as_string()
 
+
+def write_separate(generator, events, prefix=''):
+    for t in TYPES.values():
+        fp = open(prefix + t + '.ics', 'w')
+        fp.write(generator.generate(events, event_filter=lambda e: e['type'] == t))
+        fp.close()
+
+
+if __name__ == '__main__':
+    optionparser = optparse.OptionParser(usage='%prog config.json timetable.html')
+    optionparser.add_option('-s', '--split',
+                            metavar='PREFIX',
+                            help='generate one calendar per event type with '
+                                 'filenames of <PREFIX><TYPE>.ics')
+    optionparser.add_option('-o', '--outfile',
+                            metavar='FILE',
+                            help='output to FILE instead of stdout')
+
+    options, args = optionparser.parse_args(sys.argv[1:])
+
+    if len(args) < 2:
+        optionparser.error('not enough arguments')
+
+    config = json.load(open(args[0], 'r'))
+    # Convert year/month/day dates into datetime.date objects
+    for k in config['termdates']:
+        config['termdates'][k] = date(*(map(int, config['termdates'][k].split('/'))))
+
+    parser = Parser(term_dates=config['termdates'])
+    generator = Generator(summary_fmt=config['summary_format'])
+
+    events = list(parser.parse(open(args[1], 'r')))
+
+    if options.split is not None:
+        write_separate(generator, events, options.split)
+    elif options.outfile is not None:
+        outfile = open(options.outfile, 'w')
+        outfile.write(generator.generate(events))
+        outfile.close()
+    else:
+        sys.stdout.write(generator.generate(events))
