@@ -105,7 +105,7 @@ class Parser:
         row1, row2, row3 = event_td.findAll('table', recursive=False)
         event['id'] = row1('td')[0].font.string
         event['location'] = row1('td')[1].font.string.replace('&amp;', '&')
-        event['type'] = TYPES[event['id'][7]]
+        event['type'] = Parser.parse_event_type(event['id'])
         description = row2.font.string.replace('&amp;', '&')
         if ' - ' in description:
             event['description'], event['description_extra'] = description.split(' - ', 1)
@@ -117,13 +117,22 @@ class Parser:
         return event
 
     @staticmethod
+    def parse_event_type(event_id):
+        """Extract event type from ID string."""
+        type_key = event_id.rstrip('/0123456789')[-1]
+        return TYPES.get(type_key, '(Unknown type)')
+
+    @staticmethod
     def parse_weeks(weeks):
         """Convert a week specification into a list of weeks."""
-        if '-' in weeks:
-            w1, w2 = weeks.split('-', 1)
-            return WEEKS[WEEKS.index(w1):WEEKS.index(w2)+1]
-        else:
-            return [weeks]
+        allweeks = []
+        for weekrange in weeks.split(', '):
+            if '-' in weekrange:
+                w1, w2 = weekrange.split('-', 1)
+                allweeks += WEEKS[WEEKS.index(w1):WEEKS.index(w2)+1]
+            else:
+                allweeks.append(weekrange)
+        return allweeks
 
 
 class Generator:

@@ -1,11 +1,19 @@
 {
-    "summary_format": "%(description)s",
+    "summary_format": "%(description)s %(type)s",
     "termdates": {
         "au": "2010/10/11",
         "sp": "2011/01/10",
         "su": "2011/04/26"
     },
     "abbreviations": {
+        "Theory & Practice of Programming": "TPOP",
+        "Skills, Knowledge & Independent Learning": "SKIL",
+        "Human Aspects of Computer Science": "HACS",
+        "Mathematical Foundations of Computer Science": "MFCS",
+        "Introduction to Computer Architectures": "ICAR",
+        "Digital Architecture Circuits & Systems": "DACS",
+        "Numerical Analysis": "NUMA",
+
         "Evolutionary Algorithms": "EVO",
         "Emergence": "EME",
         "Evolvable Hardware": "EHW",

@@ -27,3 +27,10 @@ License
 -------
 
 This software is supplied under the MIT license (see LICENSE).
+
+Credits
+-------
+
+Original code by Alan Briolat.  Contributions by
+
+* `Hayashi <http://github.com/CaptainHayashi>`_
