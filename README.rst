@@ -18,6 +18,7 @@ Dependencies:
 
 * Python 2.6
 * The following Python modules:
+    
   * icalendar
   * beautifulsoup
   * pytz
