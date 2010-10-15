@@ -76,8 +76,13 @@ class Parser:
         """Generate events from parsed HTML."""
         # Every other table is a data table (the rest are day headers)
         for day, day_table in enumerate(soup.body.findAll('table', recursive=False)[1::2]):
+            # Some browsers (Google Chrome) like to "fix" HTML when they save it,
+            # and introduce phantom <tbody> tags.  Use this to look for <tr> if 
+            # it exists
+            if day_table.tbody is not None:
+                day_table = day_table.tbody
             # The first row of a table is the times
-            for row in day_table.tbody.findAll('tr', recursive=False)[1:]:
+            for row in day_table.findAll('tr', recursive=False)[1:]:
                 offset = 0
                 # Only the day name has a background colour
                 for event_td in row.findAll('td', bgcolor=lambda value: value is None, recursive=False):
