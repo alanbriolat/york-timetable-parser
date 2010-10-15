@@ -22,3 +22,8 @@ Dependencies:
   * icalendar
   * beautifulsoup
   * pytz
+
+License
+-------
+
+This software is supplied under the MIT license (see LICENSE).
