@@ -13,6 +13,11 @@ etc. - look at the supplied ``config.json`` for guidance.  For basic usage help,
 The parser currently recognises 3 types of events: lectures, seminars and practicals.  The 
 ``--split`` option can be used to write a separate calendar for each type of event.
 
+**I take no responsibility if this gets your timetable wrong!  The timetable HTML is horrible and 
+there is much room for misinterpretation to happen.  Please take the time to at least do a quick 
+check to make sure your timetable is correct.**  (Also, please let me know if your timetable comes 
+out incorrect so I can fix it.)
+
 Dependencies:
 -------------
 
