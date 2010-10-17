@@ -170,7 +170,7 @@ class Generator:
 
 def write_separate(generator, events, prefix=''):
     for t in TYPES.values():
-        fp = open(prefix + t + '.ics', 'w')
+        fp = open(prefix + t + '.ics', 'wb')
         fp.write(generator.generate(events, event_filter=lambda e: e['type'] == t))
         fp.close()
 
@@ -203,7 +203,7 @@ if __name__ == '__main__':
     if options.split is not None:
         write_separate(generator, events, options.split)
     elif options.outfile is not None:
-        outfile = open(options.outfile, 'w')
+        outfile = open(options.outfile, 'wb')
         outfile.write(generator.generate(events))
         outfile.close()
     else:
