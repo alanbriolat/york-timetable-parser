@@ -104,7 +104,7 @@ class Parser:
         event = dict()
         row1, row2, row3 = event_td.findAll('table', recursive=False)
         event['id'] = row1('td')[0].font.string
-        event['location'] = row1('td')[1].font.string.replace('&amp;', '&')
+        event['location'] = row1('td')[1].font.a.string.replace('&amp;', '&')
         event['type'] = Parser.parse_event_type(event['id'])
         description = row2.font.string.replace('&amp;', '&')
         if ' - ' in description:
