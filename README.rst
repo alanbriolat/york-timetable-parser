@@ -39,3 +39,4 @@ Credits
 Original code by Alan Briolat.  Contributions by
 
 * `Hayashi <http://github.com/CaptainHayashi>`_
+* `BRMatt <https://github.com/BRMatt>`_
