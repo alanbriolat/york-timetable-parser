@@ -119,7 +119,7 @@ class Parser:
     @staticmethod
     def parse_event_type(event_id):
         """Extract event type from ID string."""
-        type_key = event_id.rstrip('/0123456789')[-1]
+        type_key = event_id.split('/', 1)[0].rstrip('0123456789')[-1]
         return TYPES.get(type_key, '(Unknown type)')
 
     @staticmethod
