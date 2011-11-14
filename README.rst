@@ -2,6 +2,10 @@
 University of York Timetable Parser
 ===================================
 
+**This project is redundant - the University of York now provides personalised iCalendar feeds.
+I am also no longer a student, and therefore not in a position to continue maintaining or have any
+use for this project.**
+
 This is a parser for the personalised timetables supplied by the University of York e:Vision system.  
 Converts a saved HTML file to iCalendar (``.ics``) format, which can then be imported into any other 
 calendar application that supports it.
